@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps }: any) {
 
       <Head>
         <meta charSet ="utf-8" />
-        <link rel="icon" type="image/png" href="/avatar.bmp" />
+        <link rel="icon" type="image/png" href="/avatar.png" />
         <title>{asPath== "/" && "/home" || asPath }</title>
         <meta name="theme-color" content="#2f3136" />
         <link rel="apple-touch-icon" href={"https://api.lanyard.rest/"+DISCORD_ID+".png"} />
