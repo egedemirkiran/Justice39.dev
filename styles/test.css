@@ -1,0 +1,49 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.tab-menu > button {
+    cursor: pointer;
+    padding: 8px 16px;
+    border: 0;
+    background: none;
+    opacity: 0.7;
+}
+  
+.tab-menu > button:hover {
+    color: white;
+    opacity: 1;
+}
+
+.tab-menu {
+    border-bottom: 1px solid grey;
+}
+
+.tab-menu > button.focus {
+    opacity: 1;
+    color: white
+}
+  
+
+.tab-content {
+    display: none;
+}
+  
+.tab-content.selected {
+    display: block;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border: 0 solid transparent;
+      border-top-color: transparent;
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+      border-left-color: transparent;
+    border-radius: .4rem;
+}
