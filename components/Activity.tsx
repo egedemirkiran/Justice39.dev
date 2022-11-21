@@ -61,7 +61,7 @@ export function Activity({user}: any) {
                     <h1 className="text-2xl ">{item.name}
                         <br/>
                         {item.state && <h1>{item.state}</h1> }
-                        <span className="text-2xl ">{Counter(item.timestamps.start)} {item.timestamps.end&&"- "+tsString(item.timestamps.end - item.timestamps.start)} Elapsed</span>
+                        {item.timestamps && <span className="text-2xl ">{Counter(item.timestamps.start)} {item.timestamps.end&&"- "+tsString(item.timestamps.end - item.timestamps.start)} Elapsed</span>}
                     </h1>
                 </div>
             </li>
