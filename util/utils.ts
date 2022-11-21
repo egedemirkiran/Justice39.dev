@@ -27,6 +27,7 @@ export const getFlags = (flag: number, avatar: string): string[] => {
     if (flag & 512) flags.push("Early_Supporter")
     if (flag & 16384) flags.push("Bug_Hunter_Level_2")
     if (flag & 131072) flags.push("Early_Verified_Bot_Developer")
+    if (flag & 4194304) flags.push("Active_Developer");
     if (avatar && avatar.includes("a_")) flags.push("Nitro");
 
     return flags;
