@@ -12,13 +12,12 @@ import 'tippy.js/animations/scale-extreme.css';
 const pages = [{ name: "Home", href: "/" }, { name: "Social", href: "/social" }];
 
 function MyApp({ Component, pageProps }: any) {
-  const {asPath} = useRouter();
-
-  useEffect(() => {
-    //@ts-ignore
-    Router.onRouteChangeStart = () => NProgress.start();Router.onRouteChangeComplete = () => NProgress.done();Router.onRouteChangeError = () => NProgress.done();
-  }, []);
-
+    const {asPath} = useRouter();
+    useEffect(() => {
+      //@ts-ignore
+      Router.onRouteChangeStart = () => NProgress.start();Router.onRouteChangeComplete = () => NProgress.done();Router.onRouteChangeError = () => NProgress.done();
+    }, []);
+    const isSnowActive = !!process.env.SNOW;
     return <html className="text-slate-200 font-Lato">
       <div>
         <Navbar pages={pages}/>
@@ -29,7 +28,8 @@ function MyApp({ Component, pageProps }: any) {
         <link rel="icon" type="image/png" href="/avatar.png" />
         <title>{asPath== "/" && "/home" || asPath }</title>
         <meta name="theme-color" content="#2f3136" />
-        <link rel="apple-touch-icon" href={"https://api.lanyard.rest/"+DISCORD_ID+".png"} />
+        <link rel="apple-touch-icon" href="/avatar.png" />
+        {isSnowActive === true && <script type="text/javascript" src="snowstorm.js" /> }
       </Head>
 
       <Component {...pageProps}/>
