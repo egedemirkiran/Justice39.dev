@@ -5,7 +5,7 @@ const defaults = require('tailwindcss/defaultTheme');
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 //"**/*.tsx"
 module.exports = {
-	content: ['**/*.tsx', "**/**/**/**/*.tsx"],
+	content: ['**/*.tsx'],
 	darkMode: 'media',
 	theme: {
 		extend: {

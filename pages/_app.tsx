@@ -3,7 +3,6 @@ import '../styles/nprogress.css'
 import Head from 'next/head'
 import { Navbar } from '../components/Navbar';
 import Router, {useRouter} from 'next/router';
-import {DISCORD_ID} from "../util/utils";
 import { useEffect } from 'react';
 import NProgress from 'nprogress';
 import 'tippy.js/dist/tippy.css';

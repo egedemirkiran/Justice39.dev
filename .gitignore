@@ -42,8 +42,6 @@ package-lock.json
 /.idea
 /.vscode
 todo.txt
-/pages/api
-/pages/myanimelist.tsx
-/styles/test.css
+
 
 
