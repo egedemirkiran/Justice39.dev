@@ -1,14 +1,13 @@
 import type { NextPage } from 'next';
-import utils, { getFlags } from '../util/utils';
+import utils, {DISCORD_ID, getFlags} from '../util/utils';
 import { ListBadges } from '../components/ListBadges';
 import typings from '../util/typings'
 import { useLanyard } from 'use-lanyard';
 import React from 'react';
-import { FaExternalLinkAlt, FaGithub, FaSteam, FaTwitch, FaXbox } from 'react-icons/fa'
+import { FaExternalLinkAlt, FaGithub, FaLastfm, FaSpotify, FaSteam, FaTwitch, FaXbox } from 'react-icons/fa'
 import {Activity} from "../components/Activity";
 
-
-function TabItem({props}: typings.propsType) {
+function TabItem({props}: typings.PropsType) {
     return <div {...props} />
 }
 
@@ -21,7 +20,7 @@ const Tabs = ({ defaultIndex = 0, onTabClick, children }: {children: any, onTabC
     
     return <div className="wrapper ">
       <div className="flex tab-menu right-full" >
-        {children.map(({ props: { index, label } }: {props: typings.propsType} ) => <button
+        {children.map(({ props: { index, label } }: {props: typings.PropsType} ) => <button
             key={`tab-btn-${index}`}
             onClick={() => changeTab(index)}
             className={bindIndex === index ? 'focus' : ''}
@@ -30,7 +29,7 @@ const Tabs = ({ defaultIndex = 0, onTabClick, children }: {children: any, onTabC
           </button>)}
       </div>
       <div className="tab-view py-5">
-        {children.map(({ props }: {props: typings.propsType}) => <div
+        {children.map(({ props }: {props: typings.PropsType}) => <div
             {...props}
             className={`tab-content ${
               bindIndex === props.index ? 'selected' : ''
@@ -44,7 +43,7 @@ const Tabs = ({ defaultIndex = 0, onTabClick, children }: {children: any, onTabC
 
 
 const Home: NextPage = () => {
-  const { data: user } = useLanyard("865648010390405146");
+  const { data: user } = useLanyard(DISCORD_ID);
   const avatar = user?.discord_user.avatar || null;
   const status = user?.discord_status || "offline";
   const discordStatusCss = `w-24 h-24  rounded-full ${statusNameToColor(status)} ring-4 sticky right-full`;
@@ -55,14 +54,11 @@ const Home: NextPage = () => {
       <div className="bg-slate-800 rounded-xl p-8">
           <div id="container">
           <div className={discordStatusCss}>
-              <img className={discordStatusCss} src={avatar === null ? "/default.png" : avatarURL(utils.DISCORD_ID, avatar)} alt="" id="discordAvatar" height="120px" width="120px" />
+              <img className={discordStatusCss} src={avatar === null ? utils.avatar : avatarURL(DISCORD_ID, avatar)} alt="" id="discordAvatar" height="120px" width="120px" />
           </div>
-
-
               <ul className="sm:sticky right-full sm:mx-36 py-12 text-1x1 gap-2 sm:grid-cols-3 flex items-center  ">
                   {getFlags(user?.discord_user.public_flags || 0, avatar).map(key => <ListBadges key={key} icon={key} className=""/>)}
               </ul>
-
           </div>
           <div className="pt-6 space-y-4">
               <p className={`text-2x text-white font-extrabold`}>
@@ -95,7 +91,7 @@ function avatarURL(ID,code): string {
     return `https://cdn.discordapp.com/avatars/${ID}/${code}.${code.startsWith("a_") ? "gif" : "png"}`;
 }
 
-function CreateAccountButton({data, Icon}: typings.socialAccount) {
+function CreateAccountButton({data, Icon}: typings.SocialAccount) {
     const c =`fw-bold text-white card max-w-xs ${data.color}`
     return <div className="mb-3 col-sm-12 col-md-4 col-lg-3">
     <div className={c} >
@@ -111,12 +107,14 @@ function CreateAccountButton({data, Icon}: typings.socialAccount) {
 </div>
 }
 
-// If you want to change icon, do not forget to import it from react-icons
+// If you want to change icon, all icons from react-icon: https://react-icons.github.io/react-icons/
 const socialAccounts = [
-    {siteName:"twitch", color: "bg-[#583991]", username: "Justicee39", url: "https://www.twitch.tv/justicee39", Icon: FaTwitch },
-    {siteName:"github", color: "bg-[#202429]", username: "Justice39", url: "https://github.com/Justice39", Icon: FaGithub },
-    {siteName:"xbox", color: "bg-[#258312]", username: "Justice1352", url: "https://account.xbox.com/tr-tr/profile?gamertag=Justice1352", Icon: FaXbox },
-    {siteName:"steam", color: "bg-[#075a8e]", username: "Justice", url: "https://steamcommunity.com/id/ege263551/", Icon: FaSteam }
+    {siteName:"Twitch", color: "bg-[#583991]", username: "Justicee39", url: "https://www.twitch.tv/justicee39", Icon: FaTwitch },
+    {siteName:"Github", color: "bg-[#202429]", username: "Justice39", url: "https://github.com/Justice39", Icon: FaGithub },
+    {siteName:"Xbox", color: "bg-[#258312]", username: "Justice1352", url: "https://account.xbox.com/tr-tr/profile?gamertag=Justice1352", Icon: FaXbox },
+    {siteName:"Steam", color: "bg-[#075a8e]", username: "Justice", url: "https://steamcommunity.com/id/Justice39/", Icon: FaSteam },
+    {siteName:"Spotify", color: "bg-[#19a34a]", username: "Ege", url: "https://open.spotify.com/user/3omx2kbvwzhmvizbhbpl5r4e0", Icon: FaSpotify },
+    {siteName: "LastFM", color: "bg-[#ec2400]", username: "Justice39", url: "https://www.last.fm/user/Justice39", Icon: FaLastfm },
 ]
 
 function statusNameToColor(status: String): String {
