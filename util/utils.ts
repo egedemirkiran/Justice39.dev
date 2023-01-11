@@ -1,7 +1,10 @@
+import {LastFMData, LastFMResponse} from "./typings";
+import useSWR from "swr";
 export const songCleanerRegex = /\(\w.+\)/gm;
-export const DISCORD_ID = "865648010390405146";
+export const DISCORD_ID = process.env.DISCORD_ID;
 export const avatar = "https://api.lanyard.rest/"+DISCORD_ID+".png";
 const detectableAPI = "https://discord.com/api/v9/applications/detectable";
+const fetcher = url => fetch(url).then(res => res.json());
 
 export function clearSongName(songName: any): String {
     const match = songName.match(songCleanerRegex);
@@ -11,7 +14,7 @@ export function clearSongName(songName: any): String {
 
 export function getAge(): Number {
     const currentYear = new Date().getFullYear();
-    return currentYear - 2005; // you can change it with your born date
+    return currentYear - parseInt(process.env.BORN_DATE); // you can change it with your born date
 }
 
 export const getFlags = (flag: number, avatar: string): string[] => {
@@ -33,7 +36,29 @@ export const getFlags = (flag: number, avatar: string): string[] => {
     return flags;
 }
 
+export function LastFM(): LastFMData {
+    const {data} = useSWR<LastFMResponse>("/api/lastfm", fetcher, {refreshInterval: 10000});
+    if (!data) return {status: "connecting", song: null};
+    if (data.error) return {status: "error", song: null};
+    const last = data.recenttracks.track?.[0];
+    const image = last?.image.find(img => img.size === "extralarge") ?? last.image[0];
+    if (!last || !last["@attr"]?.nowplaying) return {status: "idle", song: null};
+
+    return {
+        status: "playing",
+        song: {
+            name: last.name,
+            artist: last.artist,
+            album: last.album,
+            image,
+            url: last.url,
+        }
+    }
+}
+
 export default {
     getAge: getAge(),
-    DISCORD_ID
+    DISCORD_ID,
+    avatar,
+    LastFM
 }
