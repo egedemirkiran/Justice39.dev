@@ -13,7 +13,7 @@ export function Spotify({menu}: {menu: boolean}) {
 		case "idle":
 			return <p className={style}> <span> <SiSpotify /> </span> <span id="hoverAnimation" className="truncate">I'm not listening anything</span> </p>;
 		case "playing":
-			return <a target="_blank" rel="noreferrer" className={style} href={`https://open.spotify.com/track/${lastfm.song.url}`}> <span> <SiSpotify /> </span> <span className="break-all truncate" id="hoverAnimation"> {clearSongName(lastfm.song.name)} </span> </a>;
+			return <a target="_blank" rel="noreferrer" className={style} href={lastfm.song.url}> <span> <SiSpotify /> </span> <span className="break-all truncate" id="hoverAnimation"> {clearSongName(lastfm.song.name)} </span> </a>;
 		case "error": 
 			return <p className={style}> <span> <MdErrorOutline /> </span> <span id="hoverAnimation" className="truncate">Could not connect to Last.FM</span> </p>;
 		default:
