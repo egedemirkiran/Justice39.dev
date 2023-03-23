@@ -42,6 +42,4 @@ package-lock.json
 /.idea
 /.vscode
 todo.txt
-
-
-
+next.config.js
