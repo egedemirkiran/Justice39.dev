@@ -1,7 +1,7 @@
 import {LastFMData, LastFMResponse} from "./typings";
 import useSWR from "swr";
 export const songCleanerRegex = /\(\w.+\)/gm;
-export const DISCORD_ID = process.env.DISCORD_ID;
+export const DISCORD_ID = BigInt(process.env.DISCORD_ID);
 export const avatar = "https://api.lanyard.rest/"+DISCORD_ID+".png";
 const detectableAPI = "https://discord.com/api/v9/applications/detectable";
 const fetcher = url => fetch(url).then(res => res.json());

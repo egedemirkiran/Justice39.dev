@@ -2,10 +2,11 @@ import type { NextPage } from 'next';
 import utils, {DISCORD_ID, getFlags} from '../util/utils';
 import { ListBadges } from '../components/ListBadges';
 import typings from '../util/typings'
-import { useLanyard } from 'use-lanyard';
+import { useLanyardWS } from 'use-lanyard';
 import React from 'react';
 import { FaExternalLinkAlt, FaGithub, FaLastfm, FaSpotify, FaSteam, FaTwitch, FaXbox } from 'react-icons/fa'
 import {Activity} from "../components/Activity";
+import Tippy from '@tippyjs/react';
 
 function TabItem({props}: typings.PropsType) {
     return <div {...props} />
@@ -28,7 +29,7 @@ const Tabs = ({ defaultIndex = 0, onTabClick, children }: {children: any, onTabC
             {label}
           </button>)}
       </div>
-      <div className="tab-view py-5">
+      <div className="tab-view pt-5">
         {children.map(({ props }: {props: typings.PropsType}) => <div
             {...props}
             className={`tab-content ${
@@ -43,12 +44,11 @@ const Tabs = ({ defaultIndex = 0, onTabClick, children }: {children: any, onTabC
 
 
 const Home: NextPage = () => {
-  const { data: user } = useLanyard(DISCORD_ID);
-  const avatar = user?.discord_user.avatar || null;
+  const user = useLanyardWS(`${DISCORD_ID}`);
+  const avatar = user?.discord_user.avatar || "https://cdn.discordapp.com/embed/avatars/0.png";
   const status = user?.discord_status || "offline";
-  const discordStatusCss = `w-24 h-24  rounded-full ${statusNameToColor(status)} ring-4 sticky right-full`;
+  const discordStatusCss = `w-24 h-24  rounded-full ${statusNameToColor(status)} ring-2 sticky right-full`;
   const username = user?.discord_user.username || null;
-  const discordTag = user?.discord_user.discriminator;
 
   return <main className="text-left text-4xl py-16 mx-auto max-w-1xl sm:max-w-3xl h-max">
       <div className="bg-slate-800 rounded-xl p-8">
@@ -60,12 +60,17 @@ const Home: NextPage = () => {
                   {getFlags(user?.discord_user.public_flags || 0, avatar).map(key => <ListBadges key={key} icon={key} className=""/>)}
               </ul>
           </div>
-          <div className="pt-6 space-y-4">
+          <div className="pt-3 space-y-4">
               <p className={`text-2x text-white font-extrabold`}>
-                   <h1>{username || "Loading"}<span className="text-[#b9bbaf] ">#{discordTag||"0000"}</span></h1>
+                  <h1> {user?.discord_user.global_name}</h1>
+                  <Tippy content={"Click to copy!"} placement="right" delay={[200, 350]} interactive={true} animation="shift-toward-extreme" className={user?.discord_user.username ? "visible" : "invisible"}>
+                      <p className="text-lg text-[#b9bbaf] inline-block" onClick={
+                            () => username && navigator.clipboard.writeText(user?.discord_user.username)
+                      }> @{username || "Loading"} </p>
+                  </Tippy>
               </p>
           </div>
-          <div className="py-3 ">
+          <div className="pt-4 ">
               <Tabs defaultIndex={1} >
                   <TabItem label="Accounts" index={1} id="Accounts">
                       <div className="col-12">

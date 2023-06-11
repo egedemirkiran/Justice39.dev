@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 
-export function Counter(Timestamp: number) {
-    const [date, setDate] = useState(new Date(Timestamp));
+export function Counter({start, end}: { start: number, end: number }) {
+    const [date, setDate] = useState(new Date(start));
     useEffect(() => {
-      const id = setInterval(() => setDate(new Date(Timestamp)), 100);
-      return () => clearInterval(id);
-    }, [date]);
-    return timeElapsed(date)
+        const id = setInterval(() => setDate(new Date(start)), 1000);
+        return () => clearInterval(id);
+    }, [start]);
+    const elapsed = timeElapsed(date);
+
+    return end ? <span>{elapsed} / {tsString(end - start)}</span> : <span>{elapsed}</span>;
 }
 
 export const timeElapsed = (timestamp: any) => {
